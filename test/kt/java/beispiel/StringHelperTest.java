@@ -1,25 +1,22 @@
 package kt.java.beispiel;
 
 import org.junit.jupiter.api.Test;
-import org.opentest4j.AssertionFailedError;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StringHelperTest {
 
     @Test
     public void testReverseString() {
+        // Given
+        // Gegeben ist ein String s mit dem Inhalt "abcde"
         String s = "abcde";
+        // When
+        // Wenn wir diesen String an die Funktion reverse übergeben...
         String r = StringHelper.reverse(s);
-        if ( r.equals("edcba")) {
-            // alles super, test bestanden
-        } else {
-            throw new AssertionFailedError("Test nicht bestanden");
-        }
-    }
-
-    @Test
-    public void testStringStartsWith() {
-        int i = 52;
-        i /= 0;
+        // Then
+        // Dann soll das Ergebnis "edcba" sein.
+        assertEquals("edcba", r);
     }
 
 }
