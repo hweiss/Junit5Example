@@ -2,6 +2,6 @@ package kt.java.beispiel;
 
 public class StringHelper {
     public static String reverse(String s) {
-        return ""; // TODO implementieren
+        return new StringBuilder(s).reverse().toString();
     }
 }
