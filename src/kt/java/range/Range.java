@@ -8,6 +8,17 @@ import java.util.NoSuchElementException;
  */
 public class Range implements Iterable<Integer> {
 
+    private final int von;
+    private final int bis;
+    private final int schritt;
+
+    private Range(int von, int bis, int schritt) {
+        if (schritt == 0) throw new IllegalArgumentException("Schrittweite darf nicht 0 sein");
+        this.von = von;
+        this.bis = bis;
+        this.schritt = schritt;
+    }
+
     /**
      * Erstellt eine Range mit Anfang 0 und Schrittweite 1.
      *
@@ -31,8 +42,9 @@ public class Range implements Iterable<Integer> {
 
     /**
      * Erstellt eine Range mit allen Angaben.
-     * @param von Erster Wert (inklusive).
-     * @param bis Letzter Wert (exklusive).
+     *
+     * @param von     Erster Wert (inklusive).
+     * @param bis     Letzter Wert (exklusive).
      * @param schritt Die Schrittweite.
      * @return Die Range.
      * @throws IllegalArgumentException Wenn 0 als Schrittweite angegeben wurde.
@@ -41,15 +53,16 @@ public class Range implements Iterable<Integer> {
         return new Range(von, bis, schritt);
     }
 
-    private final int von;
-    private final int bis;
-    private final int schritt;
+    public static void main(String[] args) {
+        Range r = Range.of(4);
+        for (int i : r) {
+            System.out.println(i);
+        }
+        Iterator<Integer> it = r.iterator();
+        while (true) {
+            System.out.println(it.next());
+        }
 
-    private Range(int von, int bis, int schritt) {
-        if (schritt == 0) throw new IllegalArgumentException("Schrittweite darf nicht 0 sein");
-        this.von = von;
-        this.bis = bis;
-        this.schritt = schritt;
     }
 
     // Generiert durch IntelliJ
@@ -101,26 +114,13 @@ public class Range implements Iterable<Integer> {
 
         @Override
         public Integer next() {
-            if (hasNext()) {
-                int next = nextNum;
-                nextNum += schritt;
-                return next;
-            } else {
+            if (!hasNext()) {
                 throw new NoSuchElementException("No more elements");
             }
+            int next = nextNum;
+            nextNum += schritt;
+            return next;
         }
-    }
-
-    public static void main(String[] args) {
-        Range r = Range.of(4);
-        for (int i : r) {
-            System.out.println(i);
-        }
-        Iterator<Integer> it = r.iterator();
-        while (true) {
-            System.out.println(it.next());
-        }
-
     }
 
 
