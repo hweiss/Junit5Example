@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -84,6 +85,21 @@ public class RangeTest {
             fail("Erwartete Exception ist nicht aufgetreten.");
         } catch (IllegalArgumentException expected) {
             // Exception erwartet
+        }
+    }
+
+    @Test
+    public void testNoSuchElementExceptionWennAmEndeDerRange() {
+        Iterator<Integer> it = Range.of(4).iterator();
+        assertEquals(0, it.next());
+        assertEquals(1, it.next());
+        assertEquals(2, it.next());
+        assertEquals(3, it.next());
+        try {
+            it.next();
+            fail("NoSuchElementException erwartet");
+        } catch (NoSuchElementException expected){
+
         }
     }
 }

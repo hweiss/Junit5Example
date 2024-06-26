@@ -1,6 +1,7 @@
 package kt.java.range;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Ein Datentyp analog zu range() aus Python.
@@ -100,12 +101,27 @@ public class Range implements Iterable<Integer> {
 
         @Override
         public Integer next() {
-            int next = nextNum;
-            nextNum += schritt;
-            return next;
+            if (hasNext()) {
+                int next = nextNum;
+                nextNum += schritt;
+                return next;
+            } else {
+                throw new NoSuchElementException("No more elements");
+            }
         }
     }
 
+    public static void main(String[] args) {
+        Range r = Range.of(4);
+        for (int i : r) {
+            System.out.println(i);
+        }
+        Iterator<Integer> it = r.iterator();
+        while (true) {
+            System.out.println(it.next());
+        }
+
+    }
 
 
 }
