@@ -1,9 +1,15 @@
 package kt.java.range;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,5 +51,39 @@ public class RangeTest {
         assertTrue(it.hasNext());
         assertEquals(2, it.next());
         assertFalse(it.hasNext());
+    }
+
+    @Test
+    public void testLeereRange() {
+        Range r = Range.of(1, 1, 12);
+        assertFalse(r.iterator().hasNext());
+    }
+
+    @ParameterizedTest
+    @MethodSource("rangeValues")
+    public void testCorrectValues(List<Integer> expected, Range actual) {
+        assertIterableEquals(expected, actual);
+    }
+
+    private static Stream<Arguments> rangeValues() {
+        return Stream.of(
+                Arguments.of(List.of(2,4,6,8), Range.of(2, 9, 2)),
+                Arguments.of(List.of(0,1,2,3,4,5,6,7,8,9), Range.of(10)),
+                Arguments.of(List.of(5,6,7,8,9), Range.of(5,10)),
+                Arguments.of(List.of(3,2,1), Range.of(3, 0, -1)),
+                Arguments.of(List.of(), Range.of(4, 4)),
+                Arguments.of(List.of(), Range.of(-1)),
+                Arguments.of(List.of(), Range.of(4, 8, -1))
+        );
+    }
+
+    @Test
+    public void testUngueltigeErstellungWirdVerhindert() {
+        try {
+            Range r = Range.of(1, 2, 0);
+            fail("Erwartete Exception ist nicht aufgetreten.");
+        } catch (IllegalArgumentException expected) {
+            // Exception erwartet
+        }
     }
 }

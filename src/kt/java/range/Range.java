@@ -34,6 +34,7 @@ public class Range implements Iterable<Integer> {
      * @param bis Letzter Wert (exklusive).
      * @param schritt Die Schrittweite.
      * @return Die Range.
+     * @throws IllegalArgumentException Wenn 0 als Schrittweite angegeben wurde.
      */
     public static Range of(int von, int bis, int schritt) {
         return new Range(von, bis, schritt);
@@ -44,6 +45,7 @@ public class Range implements Iterable<Integer> {
     private final int schritt;
 
     private Range(int von, int bis, int schritt) {
+        if (schritt == 0) throw new IllegalArgumentException("Schrittweite darf nicht 0 sein");
         this.von = von;
         this.bis = bis;
         this.schritt = schritt;
@@ -80,15 +82,30 @@ public class Range implements Iterable<Integer> {
 
     private class RangeIterator implements Iterator<Integer> {
 
+        private int nextNum;
+
+        public RangeIterator() {
+            this.nextNum = von;
+        }
+
         @Override
         public boolean hasNext() {
-            return false;
+            if (schritt < 0) {
+                // negative Schrittweite
+                return nextNum > bis;
+            } else {
+                return nextNum < bis;
+            }
         }
 
         @Override
         public Integer next() {
-            return 0;
+            int next = nextNum;
+            nextNum += schritt;
+            return next;
         }
     }
+
+
 
 }
