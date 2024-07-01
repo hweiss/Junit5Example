@@ -80,12 +80,9 @@ public class RangeTest {
 
     @Test
     public void testUngueltigeErstellungWirdVerhindert() {
-        try {
+        assertThrows(IllegalArgumentException.class, () -> {
             Range r = Range.of(1, 2, 0);
-            fail("Erwartete Exception ist nicht aufgetreten.");
-        } catch (IllegalArgumentException expected) {
-            // Exception erwartet
-        }
+        });
     }
 
     @Test
@@ -95,11 +92,8 @@ public class RangeTest {
         assertEquals(1, it.next());
         assertEquals(2, it.next());
         assertEquals(3, it.next());
-        try {
-            it.next();
-            fail("NoSuchElementException erwartet");
-        } catch (NoSuchElementException expected){
-
-        }
+        assertThrows(NoSuchElementException.class,
+                it::next
+        );
     }
 }
