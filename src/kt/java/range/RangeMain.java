@@ -1,26 +1,22 @@
 package kt.java.range;
 
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class RangeMain {
 
+    public static boolean istUngerade(int zahl) {
+        System.out.println("istUngerade");
+        return zahl % 2 != 0;
+    }
+
     public static void main(String[] args) {
-//        for (int i : Range.of(1, 16, 3)) {
-//            int quadrat = i*i;
-//            System.out.println(quadrat);
-//        }
 
 //        Stream<Integer> zahlen = StreamSupport.stream(Range.of(1,16, 3).spliterator(), false);
-        long anzahl = Stream.of(1,4,7,10,13)
-                .filter(new Predicate<Integer>() {
-                    @Override
-                    public boolean test(Integer integer) {
-                        return integer % 2 != 0;
-                    }
-                })
-                .count();
+        Stream.of(1,4,7,10,13)
+                .filter(RangeMain::istUngerade)
+                .limit(2)
+                .forEach(System.out::println)
+                ;
 
-        System.out.println(anzahl);
     }
 }
